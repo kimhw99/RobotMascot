@@ -1,4 +1,4 @@
-# Installation Instructions
+# RobotMascot
 Lorem Ipsum
 
 ## Installation
