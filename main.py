@@ -3,7 +3,7 @@ from src.stt.src import STT
 import sounddevice as sd
 from dotenv import load_dotenv
 import os
-#import subprocess
+import subprocess
 
 def pickle_to_movement(path, env_name="unisim"):
 
@@ -17,16 +17,28 @@ def pickle_to_movement(path, env_name="unisim"):
 
     """
     # YOUR CODE HERE
-    #process = f"""conda run -n {env_name} python vinod_workspace/deploy_real.py -- pkl {path} -- iface eth0 -- speed 0.5"""
-    #subprocess.run(process.split())
-
-    print("[PICKLE TO ROBOT MOVEMENT: TODO]")
+    process = f"""python {path}"""
+    subprocess.run(process.split())
 
 if __name__ == "__main__":
 
     # Input Variables
     persona = "a Superhero"
-    movement_directory = './src/movements'
+    movement_directory = os.path.join('src', 'movements')
+
+    # .env file (if not exist)
+    if not os.path.isfile(".env"):
+        env_vars ={
+            "HF_TOKEN": "your-hf-token-here"
+        }
+        with open(".env", "w") as f:
+                for key, value in env_vars.items():
+                    # Ensure the key is uppercase (standard convention) 
+                    # and write the pair to the file
+                    f.write(f"{key.upper()}={value}\n")
+        
+        raise FileNotFoundError('Add HF Token')
+
 
     # Models
     load_dotenv()
