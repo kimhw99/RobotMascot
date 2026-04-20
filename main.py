@@ -18,7 +18,8 @@ def pickle_to_movement(path, env_name="unisim"):
     """
     # YOUR CODE HERE
     process = f"""python {path}"""
-    subprocess.run(process.split())
+    print(process)
+    #subprocess.run(process.split())
 
 if __name__ == "__main__":
 

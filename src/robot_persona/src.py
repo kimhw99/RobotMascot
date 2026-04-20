@@ -6,11 +6,16 @@ from sentence_transformers import SentenceTransformer
 import faiss
 import numpy as np
 import os
+import json
 
 class SemanticSearch:
     def __init__(self, movement_directory='./movements'):
         self.model = SentenceTransformer('all-MiniLM-L6-v2')
-        self.sentences = os.listdir(movement_directory)
+
+        with open(os.path.join(movement_directory, 'movements.json'), 'r', encoding='utf-8') as file:
+            self.sentences_json = json.load(file)
+            self.sentences = list(self.sentences_json.keys())
+        
         self.embeddings = self.model.encode(self.sentences)
         d = self.embeddings.shape[1]
         self.index = faiss.IndexFlatL2(d)
@@ -22,7 +27,7 @@ class SemanticSearch:
         distances, indices = self.index.search(query_vector.astype('float32'), k)
 
         if distances[0][0] > 0.5:
-            return self.sentences[indices[0][0]]
+            return self.sentences_json[self.sentences[indices[0][0]]]
 
 def prompt_format(input_text, persona):
     return f"""
@@ -71,11 +76,18 @@ class RobotPersona:
         
         self.messages[0].append(llm_output)
 
+        # Returns Gesture File Directory
+        """
         return {
             "text": llm_output['content'],
             "gesture": os.path.join(self.movement_directory, self.search_model.query(input_text + " " + llm_output['content']))
         }
-
+        """
+        return {
+            "text": llm_output['content'],
+            "gesture": self.search_model.query(input_text + " " + llm_output['content'])
+        }
+    
 if __name__ == "__main__":
     
     # Inputs
