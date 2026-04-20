@@ -24,7 +24,7 @@ def pickle_to_movement(path, env_name="unisim"):
 if __name__ == "__main__":
 
     # Input Variables
-    persona = "a Superhero"
+    persona = "a Helpful Assistant"
     movement_directory = os.path.join('src', 'movements')
 
     # .env file (if not exist)

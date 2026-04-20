@@ -20,14 +20,18 @@ class SemanticSearch:
         d = self.embeddings.shape[1]
         self.index = faiss.IndexFlatL2(d)
         self.index.add(self.embeddings.astype('float32'))
+        self.search_threshold = 1.0
 
     def query(self, query, k=1):
         query_vector = self.model.encode([query])
 
         distances, indices = self.index.search(query_vector.astype('float32'), k)
 
-        if distances[0][0] > 0.5:
+        if distances[0][0] < self.search_threshold:
             return self.sentences_json[self.sentences[indices[0][0]]]
+        
+        else:
+            return None
 
 def prompt_format(input_text, persona):
     return f"""

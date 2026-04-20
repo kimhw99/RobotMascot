@@ -51,15 +51,15 @@ class STT:
                 full_audio = np.array(self.audio_buffer).astype(np.float32)
                 
                 # Transcribe
-                segments, _ = self.model.transcribe(full_audio, beam_size=1, language="en")
+                segments, _ = self.model.transcribe(full_audio, beam_size=5, language="en")
                 text = "".join([s.text for s in segments]).strip()
                 
                 if text:
-                    print(f"[USER] {text}")
+                    print(f"[USER] {text}\n")
                     if persona_func:
                         robot_reply = persona_func(text)
                         print(f"[ROBOT] {robot_reply['text']}")
-                        print(f"[ACTION] {robot_reply['gesture']}")
+                        print(f"[ACTION] {robot_reply['gesture']}\n")
 
                         if action_func and robot_reply['gesture']:
                             action_func(robot_reply['gesture']) # Pickle -> Robot Gesture
