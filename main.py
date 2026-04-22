@@ -4,8 +4,12 @@ import sounddevice as sd
 from dotenv import load_dotenv
 import os
 import subprocess
+import requests
+import time
+import pickle
+import numpy as np
 
-def pickle_to_movement(path, env_name="unisim"):
+def pickle_to_movement(path, text):
 
     """
     
@@ -17,8 +21,43 @@ def pickle_to_movement(path, env_name="unisim"):
 
     """
     # YOUR CODE HERE
-    process = f"""python {path}"""
-    print(process)
+    url = f'''http://00.00.0.000:8040/run-script/{path}/"{text}"'''
+    
+    if path:
+        movement_path = os.path.join('src', 'movements', 'files', path)
+        
+        with open(movement_path, 'rb') as file:
+            movement_data = pickle.load(file)
+
+        if 'joint_angles' in movement_data:
+            movement_data['joint_angles'] = movement_data['joint_angles'].tolist()
+
+        print(len(movement_data['joint_angles']))
+        print(movement_path)
+        
+    else:
+         movement_data = None
+
+    try:
+         response = requests.post(url, json={
+              'movement': movement_data,
+              'text': text
+         })
+         response.raise_for_status()
+
+    except requests.exceptions.RequestException as e:
+        print(f"An error occurred: {e}")
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+    """
+    response = requests.get(url)
+    response.raise_for_status()
+    
+    time.sleep(10)
+    print(url)
+    """
     #subprocess.run(process.split())
 
 if __name__ == "__main__":
