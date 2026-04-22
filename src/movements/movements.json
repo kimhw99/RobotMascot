@@ -1,4 +1,1 @@
-{
-  "hello": "hello.py",
-  "goodbyte": "goodbye.py"
-}
+{"captain america shield": "captain_america_shield_kinematics.pkl", "flex": "flex_kinematics.pkl", "hulk smash": "hulk_smash_kinematics.pkl", "iron man repulsor": "iron_man_repulsor_kinematics.pkl", "punch": "punch_kinematics.pkl", "spider man landing": "spider_man_landing_kinematics.pkl", "spider man web shoot": "spider_man_web_shoot_kinematics.pkl", "thor lightning": "thor_lightning_kinematics.pkl", "walking": "walking_kinematics.pkl", "wave": "wave_kinematics.pkl", "wolverine claws": "wolverine_claws_kinematics.pkl"}
