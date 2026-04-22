@@ -14,7 +14,7 @@ class STT:
         COMPUTE_TYPE = "float16" if device == "cuda" else "int8"
         self.SAMPLERATE = 16000
         self.SILENCE_DURATION = 1.5  # Seconds of silence before "ending" a sentence
-        self.SILENCE_THRESHOLD = 0.01 # Volume threshold (adjust based on your mic)
+        self.SILENCE_THRESHOLD = 0.25 # Volume threshold (adjust based on your mic)
 
         # --- Initialize ---
         self.model = WhisperModel(MODEL_SIZE, device=device, compute_type=COMPUTE_TYPE)
